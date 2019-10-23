@@ -17,8 +17,17 @@ const steps = [
     },
     {
         title: '운동준비',
+        content: 'Third-content',
+    },
+    {
+        title: '운동시작',
+        content: 'Fourth-content',
+    },
+    {
+        title: '운동결과',
         content: 'Last-content',
     },
+    
 ];
 
 
@@ -310,7 +319,7 @@ const start = () => {
                 </div>
                 </div>
             )
-        } else {
+        } else if(current==2) {
             return (
                 <div style={{ background: '#ECECEC', padding: '30px' }}>
                     <Row gutter={16}>
@@ -352,13 +361,34 @@ const start = () => {
                     </Row>
                 </div>
             );
+        }else if(current==3){
+            return (
+                <div style={{ background: '#ECECEC', padding: '30px' }}>
+                    <Row gutter={16}>
+                        <Col span={24}>
+                        
+                        </Col>
+                    </Row>
+                </div>
+            );
+
+        }else{
+            return (
+                <div style={{ background: '#ECECEC', padding: '30px' }}>
+                    <Row gutter={16}>
+                        <Col span={24}>
+                        
+                        </Col>
+                    </Row>
+                </div>
+            );
 
         }
     }
 
     return (
         <div style={{ marginTop: 30  }}>
-            <Steps current={current} style={{ marginBottom: 20 }}>
+            <Steps current={current} style={{ marginBottom: 20 }} >
                 {steps.map(item => (
                     <Step key={item.title} title={item.title} />
                 ))}
