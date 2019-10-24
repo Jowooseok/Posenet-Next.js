@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link';
 import { Steps, Button, message, Card, Row, Col, Drawer, Form, Input, Divider } from 'antd';
+import Exercise from '../components/exercise';
 
 
 const { Step } = Steps;
@@ -366,7 +367,7 @@ const start = () => {
                 <div style={{ background: '#ECECEC', padding: '30px' }}>
                     <Row gutter={16}>
                         <Col span={24}>
-                        
+                            <Exercise />
                         </Col>
                     </Row>
                 </div>

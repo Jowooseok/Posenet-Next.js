@@ -3,8 +3,8 @@ import * as posenet from '@tensorflow-models/posenet'
 const pointRadius = 3
 
 export const config = {
-  videoWidth: 900,
-  videoHeight: 700,
+  videoWidth: 800,
+  videoHeight: 600,
   flipHorizontal: true,
   algorithm: 'single-pose',
   showVideo: true,

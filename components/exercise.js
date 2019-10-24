@@ -1,14 +1,13 @@
 import React from 'react'
-import Link from 'next/link';
 import Camera from '../components/Camera.js'
 
-
-const battle = () => {
+const exercise = () =>{
+    
     return(
         <div>
-            <Camera/>
+            <Camera />
         </div>
     )
 }
 
-export default battle;
+export default exercise;

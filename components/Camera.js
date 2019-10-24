@@ -4,8 +4,8 @@ import * as posenet from '@tensorflow-models/posenet'
 
 class PoseNet extends Component {
   static defaultProps = {
-    videoWidth: 900,
-    videoHeight: 700,
+    videoWidth: 700,
+    videoHeight: 500,
     flipHorizontal: true,
     algorithm: 'single-pose',
     showVideo: true,
@@ -153,6 +153,7 @@ class PoseNet extends Component {
         canvasContext.save()
         canvasContext.drawImage(video, 0, 0, videoWidth, videoHeight)
         canvasContext.restore()
+        console.log(poses);
       }
 
       poses.forEach(({score, keypoints}) => {
@@ -175,7 +176,8 @@ class PoseNet extends Component {
             )
           }
         }
-      })
+      }
+      )
       requestAnimationFrame(findPoseDetectionFrame)
     }
     findPoseDetectionFrame()
@@ -187,7 +189,7 @@ class PoseNet extends Component {
         <div>
           <video id="videoNoShow" playsInline ref={this.getVideo} />
           <canvas className="webcam" ref={this.getCanvas} />
-
+        
           <style jsx>{`
    .webcam {
     margin: 0 auto;
