@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link';
 import { Steps, Button, message, Card, Row, Col, Drawer, Form, Input, Divider } from 'antd';
-import Exercise from '../components/exercise';
+import Camera from '../components/Camera.js'
 
 
 const { Step } = Steps;
@@ -43,11 +43,7 @@ const start = () => {
     const [pushupNumber , setPushupNumber] = useState('');
     const [squatNumber, setSquatNumber] = useState('');
     const [situpNumber, setSitupNumber] = useState('');
-    const [deadliftSets, setDeadliftSets] = useState('');
-    const [pushupSets , setPushupSets] = useState('');
-    const [squatSets, setSquatSets] = useState('');
-    const [situpSets, setSitupSets] = useState('');
-
+    const [exerciseSets, setExerciseSets] = useState('');
 
     const next = () => {
         setCurrent(current + 1);
@@ -95,9 +91,6 @@ const start = () => {
         setDeadliftNumber(e.target.value)
     }
 
-    const onChangeDeadliftSets = (e) =>{
-        setDeadliftSets(e.target.value)
-    }
 
     const onPushupSubmit = (e) =>{
         e.preventDefault
@@ -106,10 +99,6 @@ const start = () => {
 
     const onChangePushupNumber = (e) =>{
         setPushupNumber(e.target.value)
-    }
-
-    const onChangePushupSets = (e) =>{
-        setPushupSets(e.target.value)
     }
 
     const onSitupSubmit = (e) =>{
@@ -121,10 +110,6 @@ const start = () => {
         setSitupNumber(e.target.value)
     }
 
-    const onChangeSitupSets = (e) =>{
-        setSitupSets(e.target.value)
-    }
-
     const onSquatSubmit = (e) =>{
         e.preventDefault
         onCloseSquat()
@@ -134,9 +119,10 @@ const start = () => {
         setSquatNumber(e.target.value)
     }
 
-    const onChangeSquatSets = (e) =>{
-        setSquatSets(e.target.value)
+    const onChangeExerciseSets = (e) =>{
+        setExerciseSets(e.target.value)
     }
+
     
     const contents = () => {
         if (current == 0) {
@@ -166,31 +152,31 @@ const start = () => {
         else if (current == 1) {
             return (
                 <div>
-                    <Card size="small" title="운동설정현황" extra={<></>} style={{ width: 300, height: 520 , position:'absolute', right : 800, top : 200}}> {/* 나중에 right 수정 */}
+                    <Card size="small" title="운동설정현황" extra={<></>} style={{ width: 300, height: 450 , position:'absolute', right : 800, top : 200}}> {/* 나중에 right 수정 */}
                     {
                             <div>
                                 <div>
                                     <h3>데드리프트</h3>
                                     개수 : {deadliftNumber} <br />
-                                    세트 : {deadliftSets}
+                     
                                     <Divider />
                                 </div>
                                 <div>
                                     <h3>팔굽혀펴기</h3>
                                     개수 : {pushupNumber} <br />
-                                    세트 : {pushupSets}
+                               
                                     <Divider />
                                 </div>
                                 <div>
                                     <h3>스쿼트</h3>
                                     개수 : {squatNumber} <br />
-                                    세트 : {squatSets}
+                                 
                                     <Divider />
                                 </div>
                                 <div>
                                     <h3>윗몸일으켜기</h3>
                                     개수 : {situpNumber} <br />
-                                    세트 : {situpSets}
+                               
                                 </div>
                             </div>
                     }
@@ -253,9 +239,7 @@ const start = () => {
                                 <div>
                                     개수 : <Input value={deadliftNumber} placeholder='0' onChange = {onChangeDeadliftNumber} required/>
                                 </div>
-                                <div style = {{marginTop : 10}}>
-                                    세트 : <Input value={deadliftSets} placeholder='0' onChange = {onChangeDeadliftSets} required/>
-                                </div>
+                               
                                 <Button type="primary" htmlType="submit" style={{marginTop : 15}}>등록</Button>
                             </Form>
                     </Drawer>
@@ -272,9 +256,7 @@ const start = () => {
                                 <div>
                                     개수 : <Input value={pushupNumber} placeholder='0' onChange = {onChangePushupNumber} required/>
                                 </div>
-                                <div style = {{marginTop : 10}}>
-                                    세트 : <Input value={pushupSets} placeholder='0' onChange = {onChangePushupSets} required/>
-                                </div>
+                             
                                 <Button type="primary" htmlType="submit" style={{marginTop : 15}}>등록</Button>
                             </Form>
                     </Drawer>
@@ -291,9 +273,7 @@ const start = () => {
                                 <div>
                                     개수 : <Input value={squatNumber} placeholder='0' onChange = {onChangeSquatNumber} required/>
                                 </div>
-                                <div style = {{marginTop : 10}}>
-                                    세트 : <Input value={squatSets} placeholder='0' onChange = {onChangeSquatSets} required/>
-                                </div>
+                           
                                 <Button type="primary" htmlType="submit" style={{marginTop : 15}}>등록</Button>
                             </Form>
                     </Drawer>
@@ -310,9 +290,7 @@ const start = () => {
                                 <div>
                                     개수 : <Input value={situpNumber} placeholder='0' onChange = {onChangeSitupNumber} required/>
                                 </div>
-                                <div style = {{marginTop : 10}}>
-                                    세트 : <Input value={situpSets} placeholder='0' onChange = {onChangeSitupSets} required/>
-                                </div>
+                             
                                 <Button type="primary" htmlType="submit" style={{marginTop : 15}}>등록</Button>
                             </Form>
                     </Drawer>
@@ -330,31 +308,37 @@ const start = () => {
                             <div>
                                 <div style={{marginBottom : 40}}>
                                     <h3>데드리프트</h3>
-                                    <img alt="데드리프트이미지" src="../static/deaflift.png" style={{ height: 75 , right : 15   ,   position:'absolute'}} />
+                                    <img alt="데드리프트이미지" src="../static/deaflift.png" style={{ height: 60 , right : 15   ,   position:'absolute'}} />
                                     개수 : {deadliftNumber} <br />
-                                    세트 : {deadliftSets}
+                               
                                     <Divider />
                                 </div>
                                 <div style={{marginBottom : 40}}>
                                     <h3>팔굽혀펴기</h3>
-                                    <img alt="팔굽혀펴기이미지" src="../static/pushup.png" style={{ height: 75 , right : 15   ,   position:'absolute'}} />
+                                    <img alt="팔굽혀펴기이미지" src="../static/pushup.png" style={{ height: 60 , right : 15   ,   position:'absolute'}} />
                                     개수 : {pushupNumber} <br />
-                                    세트 : {pushupSets}
+                                   
                                     <Divider />
                                 </div>
                                 <div style={{marginBottom : 40}}>
                                     <h3>스쿼트</h3>
-                                    <img alt="스쿼트이미지" src="../static/squat.png" style={{ height: 75 , right : 15   ,   position:'absolute'}} />
+                                    <img alt="스쿼트이미지" src="../static/squat.png" style={{ height: 60 , right : 15   ,   position:'absolute'}} />
                                     개수 : {squatNumber} <br />
-                                    세트 : {squatSets}
+                                   
                                     <Divider />
                                 </div>
                                 <div style={{marginBottom : 30}}>
                                     <h3>윗몸일으켜기</h3>
-                                    <img alt="윗몸일으켜기이미지" src="../static/situp.jpg" style={{ height: 75 , right : 15   ,   position:'absolute'}} />
+                                    <img alt="윗몸일으켜기이미지" src="../static/situp.jpg" style={{ height: 60 , right : 15   ,   position:'absolute'}} />
                                     개수 : {situpNumber} <br />
-                                    세트 : {situpSets}
+                                  
                                 </div>
+                            
+                                <b>세트설정</b> <Input value={exerciseSets} placeholder='0' onChange = {onChangeExerciseSets} required style = {{marginTop : 5}} />
+                                {!exerciseSets && 
+                                <div style={{color : "red"}}>*세트를 입력하세요</div>
+                                }
+
                             </div>
                     }
                 </Card>
@@ -367,7 +351,8 @@ const start = () => {
                 <div style={{ background: '#ECECEC', padding: '30px' }}>
                     <Row gutter={16}>
                         <Col span={24}>
-                            <Exercise />
+                            <h1 style={{textAlign:'center'}}>{} Set {}운동이름 개수:{}1</h1>
+                             <Camera dN={deadliftNumber} pN={pushupNumber} sitN={situpNumber} sqN={squatNumber} eS={exerciseSets}  />
                         </Col>
                     </Row>
                 </div>
@@ -398,17 +383,33 @@ const start = () => {
                 {contents()}
             </div>
             <div className="steps-action">
-                {current < steps.length - 1 && (
+                {current  === 0 && (
                     <Button type="primary" onClick={() => next()}>
                         Next
             </Button>
                 )}
-                {current === steps.length - 1 && (
-                    <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                 {current === 1 && (
+                    <Button type="primary" onClick={() => next()}>
+                        Next
+            </Button>
+                )}
+                 {(current  === 2 && exerciseSets)&& (
+                    <Button type="primary" onClick={() => next()}>
                         Done
             </Button>
                 )}
-                {current > 0 && (
+                {(current === 2 && !exerciseSets) && (
+                    <Button type="primary" disabled >
+                        Next
+            </Button>
+                )}
+                
+                {current === steps.length - 1 && (
+                    <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                        메인화면
+            </Button>
+                )}
+                {(current > 0 && current<3)&&  (
                     <Button style={{ marginLeft: 8 }} onClick={() => prev()}>
                         Previous
             </Button>
