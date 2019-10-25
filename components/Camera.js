@@ -1,8 +1,21 @@
-import {drawKeyPoints, drawSkeleton} from './utills'
-import React, {Component} from 'react'
+import { drawKeyPoints, drawSkeleton } from './utills'
+import React, { Component, useState } from 'react'
 import * as posenet from '@tensorflow-models/posenet'
 
 class PoseNet extends Component {
+
+  state = {
+    currentExserciseName : '',
+    currentExserciseNumber : '',
+    currentExserciseDestininationNumber : '',
+    currentExerciseSet : '',
+  };
+
+  constructor(props) {
+    super(props, PoseNet.defaultProps)
+  }
+
+ 
   static defaultProps = {
     videoWidth: 700,
     videoHeight: 500,
@@ -22,10 +35,6 @@ class PoseNet extends Component {
     loadingText: 'Loading...please be patient...'
   }
 
-  constructor(props) {
-    super(props, PoseNet.defaultProps)
-  }
-
   getCanvas = elem => {
     this.canvas = elem
   }
@@ -35,6 +44,9 @@ class PoseNet extends Component {
   }
 
   async componentDidMount() {
+
+    this.exerciseArrFun();
+
     try {
       await this.setupCamera()
     } catch (error) {
@@ -49,7 +61,7 @@ class PoseNet extends Component {
       throw new Error('PoseNet failed to load')
     } finally {
       setTimeout(() => {
-        this.setState({loading: false})
+        this.setState({ loading: false })
       }, 200)
     }
 
@@ -62,7 +74,7 @@ class PoseNet extends Component {
         'Browser API navigator.mediaDevices.getUserMedia not available'
       )
     }
-    const {videoWidth, videoHeight} = this.props
+    const { videoWidth, videoHeight } = this.props
     const video = this.video
     video.width = videoWidth
     video.height = videoHeight
@@ -87,7 +99,7 @@ class PoseNet extends Component {
   }
 
   detectPose() {
-    const {videoWidth, videoHeight} = this.props
+    const { videoWidth, videoHeight } = this.props
     const canvas = this.canvas
     const canvasContext = canvas.getContext('2d')
 
@@ -100,21 +112,21 @@ class PoseNet extends Component {
   poseDetectionFrame(canvasContext) {
     const {
       algorithm,
-      imageScaleFactor, 
-      flipHorizontal, 
-      outputStride, 
-      minPoseConfidence, 
-      minPartConfidence, 
-      maxPoseDetections, 
-      nmsRadius, 
-      videoWidth, 
-      videoHeight, 
-      showVideo, 
-      showPoints, 
-      showSkeleton, 
-      skeletonColor, 
-      skeletonLineWidth 
-      } = this.props
+      imageScaleFactor,
+      flipHorizontal,
+      outputStride,
+      minPoseConfidence,
+      minPartConfidence,
+      maxPoseDetections,
+      nmsRadius,
+      videoWidth,
+      videoHeight,
+      showVideo,
+      showPoints,
+      showSkeleton,
+      skeletonColor,
+      skeletonLineWidth
+    } = this.props
 
     const posenetModel = this.posenet
     const video = this.video
@@ -125,22 +137,22 @@ class PoseNet extends Component {
       switch (algorithm) {
         case 'multi-pose': {
           poses = await posenetModel.estimateMultiplePoses(
-          video, 
-          imageScaleFactor, 
-          flipHorizontal, 
-          outputStride, 
-          maxPoseDetections, 
-          minPartConfidence, 
-          nmsRadius
+            video,
+            imageScaleFactor,
+            flipHorizontal,
+            outputStride,
+            maxPoseDetections,
+            minPartConfidence,
+            nmsRadius
           )
           break
         }
         case 'single-pose': {
           const pose = await posenetModel.estimateSinglePose(
-          video, 
-          imageScaleFactor, 
-          flipHorizontal, 
-          outputStride
+            video,
+            imageScaleFactor,
+            flipHorizontal,
+            outputStride
           )
           poses.push(pose)
           break
@@ -153,10 +165,9 @@ class PoseNet extends Component {
         canvasContext.save()
         canvasContext.drawImage(video, 0, 0, videoWidth, videoHeight)
         canvasContext.restore()
-        console.log(poses);
       }
 
-      poses.forEach(({score, keypoints}) => {
+      poses.forEach(({ score, keypoints }) => {
         if (score >= minPoseConfidence) {
           if (showPoints) {
             drawKeyPoints(
@@ -183,28 +194,108 @@ class PoseNet extends Component {
     findPoseDetectionFrame()
   }
 
+  
+    //운동할 배열 설정
+    exerciseArr = [];
+  
+    exerciseArrFun = () =>{
+      //목표량
+      let dN = this.props.dN;
+      let pN = this.props.pN;
+      let sitN = this.props.sitN;
+      let sqN = this.props.sqN;
+      let eS = this.props.eS;
+  
+
+      if(dN!==""){
+        console.log(this.dN)
+        this.exerciseArr.push(["데드리프트", dN])
+      }
+      if(pN!==""){
+        this.exerciseArr.push(["팔굽혀펴기", pN])
+      }
+      if(sitN!==""){
+        this.exerciseArr.push(["윗몸일으키기", sitN])
+      }
+      if(sqN!==""){
+        this.exerciseArr.push(["데드리프트", sqN])
+      }
+    }
+    
+
+    exerciseStart = () =>{
+      for(i=0; i<this.props.eS; i++){ //
+        
+        this.exerciseArr.map((v)=>{
+          this.setState({
+            currentExserciseName : v[0],
+            currentExserciseDestininationNumber : v[1],
+          })
+
+          while (1) {
+            if (v[0] === "데드리프트") {
+              // 어떤행동을 하면
+              this.setState({
+                currentExserciseNumber: currentExserciseNumber + 1
+              })
+            } else if (v[0] === "윗몸일으키기") {
+              // 어떤행동을 하면
+              this.setState({
+                currentExserciseNumber: currentExserciseNumber + 1
+              })
+
+            } else if (v[0] === "팔굽혀펴기") {
+              // 어떤행동을 하면
+              this.setState({
+                currentExserciseNumber: currentExserciseNumber + 1
+              })
+
+            } else if (v[0] === "스쿼트") {
+              // 어떤행동을 하면
+              this.setState({
+                currentExserciseNumber: currentExserciseNumber + 1
+              })
+
+            }
+            if(currentExserciseNumber === currentExserciseDestininationNumber){
+              this.setState({
+                currentExserciseName : "",
+                currentExserciseNumber : "",
+              })
+             break; 
+            }
+          }
+        })
+      
+        this.setState({
+          currentExerciseSet : currentExerciseSet + 1  
+        })
+      }
+    }
+
   render() {
     return (
       <div>
         <div>
+          
+         <h1 style={{textAlign:'center'}}>{this.state.currentExerciseSet} Set {this.state.currentExserciseName} 개수:{this.state.currentExserciseNumber} 목표개수:{this.state.currentExserciseDestininationNumber}</h1>
           <video id="videoNoShow" playsInline ref={this.getVideo} />
           <canvas className="webcam" ref={this.getCanvas} />
-        
           <style jsx>{`
-   .webcam {
-    margin: 0 auto;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 6px;
-  }
-  
-  #videoNoShow {
-    transform: scaleX(-1);
-    -moz-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
-    display: none !important;
-  }
+                .webcam {
+                  margin: 0 auto;
+                  margin-left: auto;
+                  margin-right: auto;
+                  padding: 6px;
+                }
+                
+                #videoNoShow {
+                  transform: scaleX(-1);
+                  -moz-transform: scaleX(-1);
+                  -o-transform: scaleX(-1);
+                  -webkit-transform: scaleX(-1);
+                  display: none !important;
+                }
 
     `}</style>
 

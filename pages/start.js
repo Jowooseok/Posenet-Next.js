@@ -83,7 +83,7 @@ const start = () => {
     }
 
     const onDeadliftSubmit = (e) =>{
-        e.preventDefault
+        e.preventDefault()
         onCloseDeadlift()
     }
 
@@ -93,7 +93,7 @@ const start = () => {
 
 
     const onPushupSubmit = (e) =>{
-        e.preventDefault
+        e.preventDefault()
         onClosePushup()
     }
 
@@ -102,7 +102,7 @@ const start = () => {
     }
 
     const onSitupSubmit = (e) =>{
-        e.preventDefault
+        e.preventDefault()
         onCloseSitup()
     }
 
@@ -111,7 +111,7 @@ const start = () => {
     }
 
     const onSquatSubmit = (e) =>{
-        e.preventDefault
+        e.preventDefault()
         onCloseSquat()
     }
 
@@ -351,8 +351,8 @@ const start = () => {
                 <div style={{ background: '#ECECEC', padding: '30px' }}>
                     <Row gutter={16}>
                         <Col span={24}>
-                            <h1 style={{textAlign:'center'}}>{} Set {}운동이름 개수:{}1</h1>
-                             <Camera dN={deadliftNumber} pN={pushupNumber} sitN={situpNumber} sqN={squatNumber} eS={exerciseSets}  />
+                             <Camera 
+                           dN={deadliftNumber} pN={pushupNumber} sitN={situpNumber} sqN={squatNumber} eS={exerciseSets}  />
                         </Col>
                     </Row>
                 </div>
