@@ -6,9 +6,20 @@ class PoseNet extends Component {
 
   state = {
     currentExserciseName : '',
-    currentExserciseNumber : '',
+    currentExserciseNumber : '0',
     currentExserciseDestininationNumber : '',
-    currentExerciseSet : '',
+    currentExerciseSet : '0',
+
+    //팔굽혀펴기에 필요한 좌표 스테이트
+    
+    //데드리프트에 필요한 좌표 스테이트
+    leftElbowY : '',
+    rightElbowY : '',
+    leftHipY : '',
+    rightHipY : '',
+    //윗몸일으켜기에 필요한 좌표 스테이트
+
+    //스쿼트에 필요한 좌표 스테이트
   };
 
   constructor(props) {
@@ -46,6 +57,7 @@ class PoseNet extends Component {
   async componentDidMount() {
 
     this.exerciseArrFun();
+    this.ohChangeTitle();
 
     try {
       await this.setupCamera()
@@ -189,6 +201,15 @@ class PoseNet extends Component {
         }
       }
       )
+      this.setState({
+        //데드리프트를 위한 셋스테이트
+        leftElbowY : poses[0].keypoints[7].position.y,
+        rightElbowY : poses[0].keypoints[8].position.y,
+        leftHipY : poses[0].keypoints[11].position.y,
+        rightHipY : poses[0].keypoints[12].position.y,
+
+      })
+      // console.log(poses[0])
       requestAnimationFrame(findPoseDetectionFrame)
     }
     findPoseDetectionFrame()
@@ -204,11 +225,9 @@ class PoseNet extends Component {
       let pN = this.props.pN;
       let sitN = this.props.sitN;
       let sqN = this.props.sqN;
-      let eS = this.props.eS;
   
 
       if(dN!==""){
-        console.log(this.dN)
         this.exerciseArr.push(["데드리프트", dN])
       }
       if(pN!==""){
@@ -223,62 +242,63 @@ class PoseNet extends Component {
     }
     
 
-    exerciseStart = () =>{
-      for(i=0; i<this.props.eS; i++){ //
-        
-        this.exerciseArr.map((v)=>{
-          this.setState({
-            currentExserciseName : v[0],
-            currentExserciseDestininationNumber : v[1],
-          })
+    deadliftFunc = () =>{
+      let trigger = -1;
 
-          while (1) {
-            if (v[0] === "데드리프트") {
-              // 어떤행동을 하면
-              this.setState({
-                currentExserciseNumber: currentExserciseNumber + 1
-              })
-            } else if (v[0] === "윗몸일으키기") {
-              // 어떤행동을 하면
-              this.setState({
-                currentExserciseNumber: currentExserciseNumber + 1
-              })
+      console.log(trigger)
 
-            } else if (v[0] === "팔굽혀펴기") {
-              // 어떤행동을 하면
-              this.setState({
-                currentExserciseNumber: currentExserciseNumber + 1
-              })
-
-            } else if (v[0] === "스쿼트") {
-              // 어떤행동을 하면
-              this.setState({
-                currentExserciseNumber: currentExserciseNumber + 1
-              })
-
-            }
-            if(currentExserciseNumber === currentExserciseDestininationNumber){
-              this.setState({
-                currentExserciseName : "",
-                currentExserciseNumber : "",
-              })
-             break; 
-            }
-          }
-        })
-      
-        this.setState({
-          currentExerciseSet : currentExerciseSet + 1  
-        })
+      if((this.leftElbowY < this.leftHipY) && (this.rightElbowY < this.rightHipY)){
+        trigger = 1;
       }
+
+      if((this.leftElbowY < this.leftHipY) && (this.rightElbowY < this.rightHipY)){
+        trigger = 0;
+        this.setState({
+          currentExserciseNumber : this.state.currentExserciseNumber + 1,
+        })
+        trigger = -1;
+      }
+
+      if(this.state.currentExserciseNumber === this.state.currentExserciseDestininationNumber){
+        return ;
+      }
+
     }
+
+
+
+    ohChangeTitle = () =>{
+      let arrlen = this.exerciseArr.length;
+
+      this.exerciseArr.map((e)=>
+      {
+
+        this.setState({
+          currentExserciseName : e[0],
+          currentExserciseDestininationNumber : e[1],
+        })
+
+        if(e[0]==="데드리프트"){
+          this.deadliftFunc();
+        }
+        if(e[0]==="윗몸일으키기"){
+          //데드리프트 함수
+        }
+        if(e[0]==="팔굽혀펴기"){
+          //데드리프트 함수
+        }
+        if(e[0]==="스쿼트"){
+          //데드리프트 함수
+        }
+      })
+    }
+
 
   render() {
     return (
       <div>
         <div>
-          
-         <h1 style={{textAlign:'center'}}>{this.state.currentExerciseSet} Set {this.state.currentExserciseName} 개수:{this.state.currentExserciseNumber} 목표개수:{this.state.currentExserciseDestininationNumber}</h1>
+         <h1 style={{textAlign:'center'}} >{this.state.currentExerciseSet} Set {this.state.currentExserciseName} 개수:{this.state.currentExserciseNumber} 목표개수:{this.state.currentExserciseDestininationNumber}</h1>
           <video id="videoNoShow" playsInline ref={this.getVideo} />
           <canvas className="webcam" ref={this.getCanvas} />
           <style jsx>{`
