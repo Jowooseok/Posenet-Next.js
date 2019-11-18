@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Link from 'next/link';
 import { Steps, Button, message, Card, Row, Col, Drawer, Form, Input, Divider } from 'antd';
 import Camera from '../components/Camera.js'
+import Index from '../pages/index'
 
 
 const { Step } = Steps;
@@ -44,6 +45,10 @@ const start = () => {
     const [squatNumber, setSquatNumber] = useState('');
     const [situpNumber, setSitupNumber] = useState('');
     const [exerciseSets, setExerciseSets] = useState('');
+
+    const setCurrentChild = (childData) =>{
+        setCurrent(childData);
+    }
 
     const next = () => {
         setCurrent(current + 1);
@@ -125,23 +130,33 @@ const start = () => {
 
     
     const contents = () => {
+
         if (current == 0) {
             return (
                 <div style={{ background: '#ECECEC', padding: '30px' }}>
                     <Row gutter={16}>
                         <Col span={8}>
-                            <Card title="날짜" bordered={false}>
-                                운동내역
+                            <Card title="날짜 : 2019-10-11" bordered={false}>
+                                <h2>운동내역 : 3세트</h2>
+                                <p>데드리프트 : 10</p>
+                                <p>스쿼트 : 12</p>
+                                <p>윗몸일으켜기 : 20</p>
                 </Card>
                         </Col>
                         <Col span={8}>
-                            <Card title="날짜" bordered={false}>
-                                운동내역
+                        <Card title="날짜 : 2019-10-10" bordered={false}>
+                                <h2>운동내역 : 4세트</h2>
+                                <p>데드리프트 : 10</p>
+                                <p>스쿼트 : 10</p>
+                                <p>윗몸일으켜기 : 10</p>
                 </Card>
                         </Col>
                         <Col span={8}>
-                            <Card title="날짜" bordered={false}>
-                                운동내역
+                        <Card title="날짜 : 2019-10-10" bordered={false}>
+                                <h2>운동내역 : 3세트</h2>
+                                <p>데드리프트 : 10</p>
+                                <p>스쿼트 : 12</p>
+                                <p>숄더프레스 : 10</p>
                 </Card>
                         </Col>
                     </Row>
@@ -152,7 +167,7 @@ const start = () => {
         else if (current == 1) {
             return (
                 <div>
-                    <Card size="small" title="운동설정현황" extra={<></>} style={{ width: 300, height: 450 , position:'absolute', right : 800, top : 200}}> {/* 나중에 right 수정 */}
+                    <Card size="small" title="운동설정현황" extra={<></>} style={{ width: 300, height: 450 , position:'absolute', right : 1200, top : 200}}> {/* 나중에 right 수정 */}
                     {
                             <div>
                                 <div>
@@ -162,9 +177,9 @@ const start = () => {
                                     <Divider />
                                 </div>
                                 <div>
-                                    <h3>팔굽혀펴기</h3>
+                                    <h3>숄더프레스</h3>
                                     개수 : {pushupNumber} <br />
-                               
+                                    <Divider />
                                     <Divider />
                                 </div>
                                 <div>
@@ -202,8 +217,8 @@ const start = () => {
                             </Card>
                         </Col>
                         <Col span={12}>
-                            <Card title="팔굽혀펴기" bordered={true} style={{cursor : "pointer"}}
-                                cover={<img alt="팔굽혀펴기" src="../static/pushup.png" style={{ marginTop: 30, height: 200 }} />}
+                            <Card title="숄더프레스" bordered={true} style={{cursor : "pointer"}}
+                                cover={<img alt="숄더프레스" src="../static/shoulderpress.png" style={{ marginTop: 30, height: 200 }} />}
                                 onClick={showPushupDrawer}
                             >
                             </Card>
@@ -244,7 +259,7 @@ const start = () => {
                             </Form>
                     </Drawer>
                     <Drawer
-                        title={'팔굽혀펴기'}
+                        title={'숄더프레스'}
                         placement="right"
                         closable={false}
                         onClose={onClosePushup}
@@ -314,8 +329,8 @@ const start = () => {
                                     <Divider />
                                 </div>
                                 <div style={{marginBottom : 40}}>
-                                    <h3>팔굽혀펴기</h3>
-                                    <img alt="팔굽혀펴기이미지" src="../static/pushup.png" style={{ height: 60 , right : 15   ,   position:'absolute'}} />
+                                    <h3>숄더프레스</h3>
+                                    <img alt="숄더프레스이미지" src="../static/shoulderpress.png" style={{ height: 60 , right : 15   ,   position:'absolute'}} />
                                     개수 : {pushupNumber} <br />
                                    
                                     <Divider />
@@ -324,7 +339,7 @@ const start = () => {
                                     <h3>스쿼트</h3>
                                     <img alt="스쿼트이미지" src="../static/squat.png" style={{ height: 60 , right : 15   ,   position:'absolute'}} />
                                     개수 : {squatNumber} <br />
-                                   
+                                    <Divider />
                                     <Divider />
                                 </div>
                                 <div style={{marginBottom : 30}}>
@@ -352,7 +367,7 @@ const start = () => {
                     <Row gutter={16}>
                         <Col span={24}>
                              <Camera 
-                           dN={deadliftNumber} pN={pushupNumber} sitN={situpNumber} sqN={squatNumber} eS={exerciseSets}  />
+                           dN={deadliftNumber} pN={pushupNumber} sitN={situpNumber} sqN={squatNumber} eS={exerciseSets} callbackCurrent = {setCurrentChild}  />
                         </Col>
                     </Row>
                 </div>
@@ -363,7 +378,11 @@ const start = () => {
                 <div style={{ background: '#ECECEC', padding: '30px' }}>
                     <Row gutter={16}>
                         <Col span={24}>
-                        
+                            <h1>운동결과</h1>
+                            <p>데드리프트 칼로리 소모량 : {deadliftNumber ? deadliftNumber : 0} x {exerciseSets} x 1.2kcal = {String(Number(deadliftNumber)*Number(exerciseSets)*Number(1.2))+"kcal"}</p>
+                            <p>윗몸일으켜기 칼로리 소모량 : {situpNumber ? situpNumber : 0} x {exerciseSets} x 0.9kcal = {String(Number(situpNumber)*Number(exerciseSets)*Number(0.9))+"kcal"}</p>
+                            <p>숄더프레스 칼로리 소모량 : {pushupNumber ? pushupNumber  : 0} x {exerciseSets} x 0.9kcal = {String(Number(pushupNumber)*Number(exerciseSets)*Number(0.9))+"kcal"}</p>
+                            <p>스쿼트 칼로리 소모량 : {squatNumber ? squatNumber   : 0} x {exerciseSets} x 1.5kcal = {String(Number(squatNumber)*Number(exerciseSets)*Number(1.5))+"kcal"}</p>
                         </Col>
                     </Row>
                 </div>
@@ -405,8 +424,14 @@ const start = () => {
                 )}
                 
                 {current === steps.length - 1 && (
-                    <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                        메인화면
+                    <Button type="primary" onClick={() => {
+                        return(
+                            <div>
+                            <Index />
+                            </div>
+                        )    
+                    }}>
+                        재시작
             </Button>
                 )}
                 {(current > 0 && current<3)&&  (

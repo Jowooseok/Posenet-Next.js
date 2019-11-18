@@ -6,7 +6,7 @@ export const config = {
   videoWidth: 800,
   videoHeight: 600,
   flipHorizontal: true,
-  algorithm: 'single-pose',
+  algorithm: 'multi-pose',
   showVideo: true,
   showSkeleton: true,
   showPoints: true,

@@ -1,12 +1,21 @@
 import React from 'react'
 import Camera from '../components/Camera.js'
 import Link from 'next/link';
+import {Carousel} from 'antd';
 
 
 const index = () => {
+
     return(
-        <div style = {{margin:'10%'}}>
-            
+        <div>
+              <Carousel autoplay>
+                <div>
+                    <img src="../static/캡처1.png" style={{width : "100%",marginTop:"5%" ,textAlign:"center"}}></img>
+                </div>
+                <div>
+                     <img src="../static/캡처2.png" style={{width: "100%", marginTop:"5%",textAlign:"center"}}></img>
+                </div>
+            </Carousel>
         </div>
     )
 }
