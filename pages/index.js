@@ -1,11 +1,10 @@
-import React from 'react'
+﻿import React, {useState, useEffect} from 'react'
 import Camera from '../components/Camera.js'
 import Link from 'next/link';
 import {Carousel} from 'antd';
 
 
 const index = () => {
-
     return(
         <div>
               <Carousel autoplay>
@@ -16,6 +15,7 @@ const index = () => {
                      <img src="../static/캡처2.png" style={{width: "100%", marginTop:"5%",textAlign:"center"}}></img>
                 </div>
             </Carousel>
+
         </div>
     )
 }
