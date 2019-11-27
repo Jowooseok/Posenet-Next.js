@@ -4,7 +4,7 @@ import '../node_modules/antd/dist/antd.css';
 import withRedux from 'next-redux-wrapper';
 import AppLayout from '../components/AppLayout';
 import PropTypes from 'prop-types';
-import { createStore } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from '../reducers';
 
@@ -31,7 +31,10 @@ Home.propTypes = {
 };
 
 export default withRedux((initialState, options)=>{
-    const store = createStore(reducer, initialState);
+    const middlewares = [];
+    const enhancer = compose(applyMiddleware(...middlewares), //enhance 향상시키다. redux의 기능을 향상 시키다 ( 미들웨어를 적용해서).
+        !options.isServer && window.__REDUX_DEVTOOLS_EXTENSION__ !=='underfined' ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f,)  //options.isServer 서버인지 아닌지 판단 next에서 제공하는 속성
+    const store = createStore(reducer, initialState, enhancer);
     // 여기에다가 store 커스터마이징
     return store;
 })(Home) //이부분은 외우길 바람
