@@ -12,26 +12,26 @@ class PoseNet extends Component {
     currentExserciseDestininationNumber: '',
     currentExerciseSet: '0',
     trigger: '-1',
-    deadliftSet : '1',
-    squatSet : '1',
-    shoulderpressSet : '1',
-    k : 0,
+    deadliftSet: '1',
+    squatSet: '1',
+    shoulderpressSet: '1',
+    k: 0,
 
     //숄더프레스에 필요한 좌표 스테이트
-    leftSholderY : '',
-    leftWristY : '',
+    leftSholderY: '',
+    leftWristY: '',
 
     //데드리프트에 필요한 좌표 스테이트
     leftElbowY: '',
     rightElbowY: '',
     leftHipY: '',
     rightHipY: '',
-    score : '',
+    score: '',
     //윗몸일으켜기에 필요한 좌표 스테이트
 
     //스쿼트에 필요한 좌표 스테이트
-    leftKnee : '',
-    RightKnee : '',
+    leftKnee: '',
+    RightKnee: '',
   };
 
 
@@ -65,86 +65,87 @@ class PoseNet extends Component {
 
   deadliftFunc = (e) => {
 
-    if(e){
+    if (e) {
       this.setState({
         currentExserciseName: e[0],
         currentExserciseDestininationNumber: e[1],
-        currentExerciseSet : this.state.deadliftSet,
+        currentExerciseSet: this.state.deadliftSet,
       })
     }
 
-    if ((this.state.trigger === '-1') && (Math.abs((Number(this.state.leftKnee)) - (Number(this.state.leftElbowY)))) < 110 ) { //팔꿈치와 무릎의 거리차
+    if ((this.state.trigger === '-1') && (Math.abs((Number(this.state.leftKnee)) - (Number(this.state.leftElbowY)))) < 110) { //팔꿈치와 무릎의 거리차
       this.setState({
-        trigger : '1',
+        trigger: '1',
       })
     }
 
-    if (( Math.abs((Number(this.state.leftKnee)) - (Number(this.state.leftElbowY))) > 140 )  && this.state.trigger === '1' && (this.state.score > 0.92)) {
+    if ((Math.abs((Number(this.state.leftKnee)) - (Number(this.state.leftElbowY))) > 140) && this.state.trigger === '1' && (this.state.score > 0.92)) {
       this.setState({
         currentExserciseNumber: String(Number(this.state.currentExserciseNumber) + 1),
-        trigger : '-1'
+        trigger: '-1'
       })
-    
+
     }
 
-    if ((this.state.currentExserciseNumber === this.state.currentExserciseDestininationNumber)&& this.state.currentExserciseName==="데드리프트") {
+    if ((this.state.currentExserciseNumber === this.state.currentExserciseDestininationNumber) && this.state.currentExserciseName === "데드리프트") {
       this.setState({
-        deadliftSet : String(Number(this.state.deadliftSet) + 1),
-        currentExserciseNumber : '0',
-        k : this.state.k + 1,
+        deadliftSet: String(Number(this.state.deadliftSet) + 1),
+        currentExserciseNumber: '0',
+        k: this.state.k + 1,
       })
 
       this.exerciseArr.shift();
-      setTimeout(function() {
-       console.log('데드')
+      setTimeout(function () {
+        console.log('데드')
       }, 1500);
 
       console.log(this.exerciseArr)
 
-      if((this.exerciseArr.length == 0)){
-        this.props.callbackCurrent(4);}
+      if ((this.exerciseArr.length == 0)) {
+        this.props.callbackCurrent(4);
+      }
     }
 
   }
 
   squatFunc = (e) => {
 
-    if(e){
+    if (e) {
       this.setState({
         currentExserciseName: e[0],
         currentExserciseDestininationNumber: e[1],
-        currentExerciseSet : this.state.squatSet,
+        currentExerciseSet: this.state.squatSet,
       })
     }
 
 
-    if ((this.state.trigger === '-1') && (Math.abs((Number(this.state.leftKnee)) - (Number(this.state.leftHipY)))) < 30 ) { //무릎이 엉덩이와 차이가 없으면
+    if ((this.state.trigger === '-1') && (Math.abs((Number(this.state.leftKnee)) - (Number(this.state.leftHipY)))) < 30) { //무릎이 엉덩이와 차이가 없으면
       this.setState({
-        trigger : '1',
+        trigger: '1',
       })
     }
 
-    if (( Math.abs((Number(this.state.leftKnee)) - (Number(this.state.leftHipY))) > 80 )  && this.state.trigger === '1' && (this.state.score > 0.92)) {
+    if ((Math.abs((Number(this.state.leftKnee)) - (Number(this.state.leftHipY))) > 80) && this.state.trigger === '1' && (this.state.score > 0.92)) {
       this.setState({
         currentExserciseNumber: String(Number(this.state.currentExserciseNumber) + 1),
-        trigger : '-1'
+        trigger: '-1'
       })
     }
 
-  
 
-    if ((this.state.currentExserciseNumber === this.state.currentExserciseDestininationNumber) && this.state.currentExserciseName==="스쿼트") {
+
+    if ((this.state.currentExserciseNumber === this.state.currentExserciseDestininationNumber) && this.state.currentExserciseName === "스쿼트") {
       this.setState({
-        squatSet : String(Number(this.state.squatSet) + 1),
-        currentExserciseNumber : '0',
-        k : this.state.k + 1,
+        squatSet: String(Number(this.state.squatSet) + 1),
+        currentExserciseNumber: '0',
+        k: this.state.k + 1,
       })
       this.exerciseArr.shift();
-      setTimeout(function() {
+      setTimeout(function () {
         console.log('스쿼트')
-       }, 1500);
+      }, 1500);
 
-      if((this.exerciseArr.length == 0)){
+      if ((this.exerciseArr.length == 0)) {
         this.props.callbackCurrent(4);
       }
     }
@@ -153,40 +154,40 @@ class PoseNet extends Component {
 
   shoulderpressFunc = (e) => {
 
-    if(e){
+    if (e) {
       this.setState({
         currentExserciseName: e[0],
         currentExserciseDestininationNumber: e[1],
-        currentExerciseSet : this.state.shoulderpressSet,
+        currentExerciseSet: this.state.shoulderpressSet,
       })
     }
 
 
     if ((this.state.trigger === '-1') && (Number(this.state.leftElbowY) > Number(this.state.leftSholderY))) { //어깨보다 팔굼치가 아래면
       this.setState({
-        trigger : '1',
+        trigger: '1',
       })
     }
 
     if (Number(this.state.noseY) > Number(this.state.leftWristY) && (Number(this.state.leftElbowY) < Number(this.state.leftSholderY)) && this.state.trigger === '1' && (this.state.score > 0.60)) {
       this.setState({
         currentExserciseNumber: String(Number(this.state.currentExserciseNumber) + 1),
-        trigger : '-1',
+        trigger: '-1',
       })
     }
 
-    if ((this.state.currentExserciseNumber === this.state.currentExserciseDestininationNumber) && this.state.currentExserciseName==="숄더프레스") {
+    if ((this.state.currentExserciseNumber === this.state.currentExserciseDestininationNumber) && this.state.currentExserciseName === "숄더프레스") {
       this.setState({
-        shoulderpressSet : String(Number(this.state.shoulderpressSet) + 1),
-        currentExserciseNumber : '0',
-        k : this.state.k + 1,
+        shoulderpressSet: String(Number(this.state.shoulderpressSet) + 1),
+        currentExserciseNumber: '0',
+        k: this.state.k + 1,
       })
       this.exerciseArr.shift();
-      setTimeout(function() {
+      setTimeout(function () {
         console.log('숄더프레스')
-       }, 1500);
+      }, 1500);
 
-      if((this.exerciseArr.length == 0)){
+      if ((this.exerciseArr.length == 0)) {
         this.props.callbackCurrent(4);
       }
     }
@@ -199,35 +200,35 @@ class PoseNet extends Component {
     let e = this.exerciseArr;
 
     console.log(this.exerciseArr);
-    console.log(arrlen +": arrlen")
+    console.log(arrlen + ": arrlen")
 
-    try{
-    if(arrlen>0){
-      if (e[0][0] === "데드리프트") {
-        this.deadliftFunc(e[0]);
+    try {
+      if (arrlen > 0) {
+        if (e[0][0] === "데드리프트") {
+          this.deadliftFunc(e[0]);
+        }
+        else if (e[0][0] === "윗몸일으키기") {
+          this.setState({
+            currentExserciseName: e[0][0],
+            currentExserciseDestininationNumber: e[0][1],
+          })
+          //데드리프트 함수
+        }
+        else if (e[0][0] === "숄더프레스") {
+          this.shoulderpressFunc(e[0]);
+
+        }
+        else if (e[0][0] === "스쿼트") {
+          this.squatFunc(e[0]);
+
+        }
+      } else {
+        this.props.callbackCurrent(4);
       }
-      else if (e[0][0] === "윗몸일으키기") {
-        this.setState({
-          currentExserciseName: e[0][0],
-          currentExserciseDestininationNumber: e[0][1],
-        })
-        //데드리프트 함수
-      }
-      else if (e[0][0] === "숄더프레스") {
-        this.shoulderpressFunc(e[0]);
-       
-      }
-      else if (e[0][0] === "스쿼트") {
-        this.squatFunc(e[0]);
-       
-      }
-    }else{
-      this.props.callbackCurrent(4);
+
+    } catch (e) {
+      console.log(e);
     }
-
-  }catch(e){
-    console.log(e);
-  }
   }
 
 
@@ -411,30 +412,30 @@ class PoseNet extends Component {
       }
       )
 
-      try{
-      if(poses[0].keypoints[7]){
-      this.setState({
-        //데드리프트를 위한 셋스테이트
-        leftElbowY: poses[0].keypoints[7].position.y,
-        rightElbowY: poses[0].keypoints[8].position.y,
-        leftHipY: poses[0].keypoints[11].position.y,
-        rightHipY: poses[0].keypoints[12].position.y,
-        score : poses[0].score,
+      try {
+        if (poses[0].keypoints[7]) {
+          this.setState({
+            //데드리프트를 위한 셋스테이트
+            leftElbowY: poses[0].keypoints[7].position.y,
+            rightElbowY: poses[0].keypoints[8].position.y,
+            leftHipY: poses[0].keypoints[11].position.y,
+            rightHipY: poses[0].keypoints[12].position.y,
+            score: poses[0].score,
 
-        //스쾃
-        leftKnee : poses[0].keypoints[13].position.y,
-        RightKnee : poses[0].keypoints[14].position.y,
+            //스쾃
+            leftKnee: poses[0].keypoints[13].position.y,
+            RightKnee: poses[0].keypoints[14].position.y,
 
-        //숄더프레스
-        noseY : poses[0].keypoints[0].position.y,
-        leftSholderY : poses[0].keypoints[5].position.y,
-        leftWristY : poses[0].keypoints[9].position.y,
+            //숄더프레스
+            noseY: poses[0].keypoints[0].position.y,
+            leftSholderY: poses[0].keypoints[5].position.y,
+            leftWristY: poses[0].keypoints[9].position.y,
 
-      })
-    }
-  }catch(e){
-    console.log(e);
-  }
+          })
+        }
+      } catch (e) {
+        console.log(e);
+      }
 
       this.ohChangeTitle();
 
