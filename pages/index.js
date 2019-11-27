@@ -1,21 +1,22 @@
 import React, {useState, useEffect} from 'react'
 import Camera from '../components/Camera.js'
 import Link from 'next/link';
+import {Carousel} from 'antd';
 
 
 const index = () => {
-const[count, setCount] = useState(0);
-
-useEffect(()=>{
-    document.title = `You clicked ${count} time`;
-});
-
+    useEffect
     return(
-        <div style = {{margin:'10%'}}>
-            <p>You clicked {count} times</p>
-            <button onClick={()=> setCount(count+1)}>
-                Click me
-            </button>
+        <div>
+              <Carousel autoplay>
+                <div>
+                    <img src="../static/캡처1.png" style={{width : "100%",marginTop:"5%" ,textAlign:"center"}}></img>
+                </div>
+                <div>
+                     <img src="../static/캡처2.png" style={{width: "100%", marginTop:"5%",textAlign:"center"}}></img>
+                </div>
+            </Carousel>
+
         </div>
     )
 }

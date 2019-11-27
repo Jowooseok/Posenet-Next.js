@@ -2,9 +2,9 @@ export const initialState = {
     mainExercise: [],
 }
 
-const ADD_EXERCISE = 'ADD_EXERCISE';
+export const ADD_EXERCISE = 'ADD_EXERCISE';
 
-export const addExercise = {
+const addExercise = {
     type : ADD_EXERCISE,
 };
 
