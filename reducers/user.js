@@ -8,14 +8,14 @@ export const initialState = { //초기 값
 export const LOG_IN = 'LOG_IN'; //액션의 이름
 export const LOG_OUT = 'LOG_OUT';
 
-const loginAction = { //액션
+export const loginAction = { //액션
     type : LOG_IN,
     data: {
         nickname : 'Jrun2ng',
     },
 };
 
-const logoutAction = {
+export const logoutAction = {
     type : LOG_OUT,
 };
 
@@ -28,7 +28,7 @@ const reducer = (state = initialState, action) =>{ //스테이트와 액션을 �
                 user: action.data,
             }
         }
-        case LOT_OUT : {
+        case LOG_OUT : {
             return{
                 ...state,
                 isLoggedIn : false,

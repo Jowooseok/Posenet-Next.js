@@ -1,8 +1,11 @@
-import React, {useState, useCallback } from 'react';
+import React, {useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, Input, Row, Col, Card, Avatar, Button, Form } from 'antd';
 import PropTypes from 'prop-types';
-import { useInput } from '../pages/signup'
+import { useInput } from '../pages/signup';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginAction, logoutAction } from '../reducers/user';
+
 
 
 const AppLayout = ({ children }) => {
@@ -19,6 +22,15 @@ const AppLayout = ({ children }) => {
             setIsLoggedIn(true);
     },[id, password] );
 
+    //redux
+    const ReduxUser = useSelector(state=>state.user); //구조문법으로 {usLoggedIn, user} = useSelector(state=>state.user); 사용 가능
+    console.log(ReduxUser);
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        dispatch(loginAction);
+        dispatch(logoutAction);
+        dispatch(loginAction);
+    }, []); 
 
     
     return (
