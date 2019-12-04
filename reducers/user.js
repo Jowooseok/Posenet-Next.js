@@ -7,15 +7,22 @@ export const initialState = { //초기 값
 
 //------------setState
 
-export const LOG_IN = 'LOG_IN'; //액션의 이름
+export const SING_UP = 'SIGN_UP'; //액션의 이름
+export const SING_UP_SUCCESS = 'SING_UP_SUCCESS';
+export const LOG_IN = 'LOG_IN';
+export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
+export const LOG_IN_FAILURE = 'LOG_IN_FAILURE'; 
 export const LOG_OUT = 'LOG_OUT';
-export const SING_UP = 'SIGN_UP';
 
 export const signUpAction = (data) => {
     return {
         type: SING_UP,
         data: data,
     };
+};
+
+export const signUpSuccess = {
+    type : SING_UP_SUCCESS,
 };
 
 export const loginAction = { //액션

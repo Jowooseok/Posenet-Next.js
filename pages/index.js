@@ -2,9 +2,27 @@
 import Camera from '../components/Camera.js'
 import Link from 'next/link';
 import {Carousel} from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
 
 
 const index = () => {
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        dispatch({
+            type: 'HELLO_SAGA',
+        });
+        dispatch({
+            type: 'HELLO_SAGA',
+        });
+        dispatch({
+            type: 'HELLO_SAGA',
+        });
+        dispatch({
+            type: 'HELLO_SAGA',
+        });
+    }, []);
+
     return(
         <div>
               <Carousel autoplay>

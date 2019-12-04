@@ -35,12 +35,12 @@ Jrun2ng.propTypes = {
 
 const configureStore = (initialState, options) => { // 이형식은 외우기 보통 바뀌지 않음
     const sagaMiddleware = createSagaMiddleware();
-    const middlewares = [sagaMiddleware];
+    const middlewares = [sagaMiddleware]; //넣고 싶은 미들웨어 넣기
     const enhancer = process.env.NODE_ENV === 'production'
-      ? compose(applyMiddleware(...middlewares))
-      : compose(
+      ? compose(applyMiddleware(...middlewares)) //실제 서비스
+      : compose( //개발일때 REDUX_DEVTOOLS가 실제 배포시 노출되면 안되므로
         applyMiddleware(...middlewares),
-        !options.isServer && typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined' ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
+        !options.isServer && typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined' ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f, //배포할때는 REDUX_DEVTOOLS 뻄 - 리덕스가 노출되버림
       );
     const store = createStore(reducer, initialState, enhancer);
     sagaMiddleware.run(rootSaga);
