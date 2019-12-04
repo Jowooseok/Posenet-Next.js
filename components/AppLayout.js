@@ -10,27 +10,37 @@ import { loginAction, logoutAction } from '../reducers/user';
 
 const AppLayout = ({ children }) => {
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const onChangeIsLoggedIn = () => {
-        setIsLoggedIn(false);
-    }
+    //react
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // const onChangeIsLoggedIn = () => {
+    //     setIsLoggedIn(false);
+    // }
     const [id, onChangeId] = useInput('');
     const [password, onChangePassword] = useInput('');
+    // const onSubmitForm = useCallback((e) =>{
+    //     e.preventDefault();
+    //     if(id === "wooseok" && password == "1234")
+    //         setIsLoggedIn(true);
+    // },[id, password] );
+
+    //redux
+    const ReduxUser = useSelector(state=>state.user); //구조문법으로 const {useLoggedIn, user} = useSelector(state=>state.user); 사용 가능
+    const { user, isLoggedIn} = useSelector(state=>state.user);
+    const dispatch = useDispatch();
+    const onChangeIsLogout = () =>{
+        dispatch(logoutAction);
+    }
     const onSubmitForm = useCallback((e) =>{
         e.preventDefault();
         if(id === "wooseok" && password == "1234")
-            setIsLoggedIn(true);
+            dispatch(loginAction);
     },[id, password] );
-
-    //redux
-    const ReduxUser = useSelector(state=>state.user); //구조문법으로 {usLoggedIn, user} = useSelector(state=>state.user); 사용 가능
-    console.log(ReduxUser);
-    const dispatch = useDispatch();
-    useEffect(()=>{
-        dispatch(loginAction);
-        dispatch(logoutAction);
-        dispatch(loginAction);
-    }, []); 
+    
+    // useEffect(()=>{
+    //     dispatch(loginAction);
+    //     dispatch(logoutAction);
+    //     dispatch(loginAction);
+    // }, []); 
 
     
     return (
@@ -45,7 +55,7 @@ const AppLayout = ({ children }) => {
                         </Menu.Item>
                         <Menu.Item key="start"><Link href="/start"><a>Start</a></Link></Menu.Item>
                         <Menu.Item key="mypage" ><Link href="/mypage"><a>Mypage</a></Link></Menu.Item>
-                        <Menu.Item key="logout"><Button onClick = {onChangeIsLoggedIn}>로그아웃</Button></Menu.Item>
+                        <Menu.Item key="logout"><Button onClick = {onChangeIsLogout}>로그아웃</Button></Menu.Item>
                     </Menu>
                     :
                     <Menu mode="horizontal">
