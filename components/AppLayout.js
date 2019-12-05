@@ -4,7 +4,7 @@ import { Menu, Input, Row, Col, Card, Avatar, Button, Form } from 'antd';
 import PropTypes from 'prop-types';
 import { useInput } from '../pages/signup';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginAction, logoutAction } from '../reducers/user';
+import { LOG_IN_REQUEST, LOG_IN_SUCCESS } from '../reducers/user';
 
 
 
@@ -25,23 +25,32 @@ const AppLayout = ({ children }) => {
 
     //redux
     const ReduxUser = useSelector(state=>state.user); //구조문법으로 const {useLoggedIn, user} = useSelector(state=>state.user); 사용 가능
-    const { user, isLoggedIn} = useSelector(state=>state.user);
+    const {isLoggingIn, isLoggedIn,} = useSelector(state=>state.user);
     const dispatch = useDispatch();
     const onChangeIsLogout = () =>{
         dispatch(logoutAction);
     }
     const onSubmitForm = useCallback((e) =>{
         e.preventDefault();
-        if(id === "wooseok" && password == "1234")
-            dispatch(loginAction);
+        
+        // dispatch({
+        //     type: LOG_IN_REQUEST,
+        //     data: {
+        //         id, password,
+        //     },
+        // });
+
+        if(id === "wooseok" && password == "1234"){
+            dispatch({
+                type: 'LOG_IN',
+                data: {
+                    isLoggedIn : true,
+                }
+            })
+        }
+       
     },[id, password] );
     
-    // useEffect(()=>{
-    //     dispatch(loginAction);
-    //     dispatch(logoutAction);
-    //     dispatch(loginAction);
-    // }, []); 
-
     
     return (
         <>
@@ -82,7 +91,7 @@ const AppLayout = ({ children }) => {
                                 <Input name="user-password" type="password" required value={password} onChange={onChangePassword} />
                             </div>
                             <div style={{ marginTop: 10 }}>
-                                <Button type="primary" htmlType="submit" loading={false} style={{ marginRight: 5 }}>로그인</Button>
+                                <Button type="primary" htmlType="submit" loading={isLoggingIn} style={{ marginRight: 5 }}>로그인</Button>
 
                             </div>
 
@@ -114,4 +123,3 @@ AppLayout.propTypes = {
 };
 
 export default AppLayout;
-

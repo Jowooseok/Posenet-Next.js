@@ -4,7 +4,7 @@ export const initialState = {
 
 export const ADD_EXERCISE = 'ADD_EXERCISE';
 
-const addExercise = {
+export const addExercise = {
     type : ADD_EXERCISE,
 };
 

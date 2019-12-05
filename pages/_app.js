@@ -28,8 +28,8 @@ const Jrun2ng = ({ Component, store }) => { //store 는 next-redux-wrapper가 �
 };
 
 Jrun2ng.propTypes = {
-    Component: PropTypes.elementType,
-    store : PropTypes.object,
+    Component: PropTypes.elementType.isRequired,
+    store : PropTypes.object.isRequired,
 
 };
 
