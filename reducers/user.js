@@ -3,6 +3,7 @@ const dummyUser = {
     Post: [],
     Follwoings: [],
     Follwowers: [],
+    id: 1,
 }
 
 export const initialState = { //초기 값
@@ -10,7 +11,7 @@ export const initialState = { //초기 값
     isLoggingOut: false, //로그아웃 시도중
     isLoggingIn: false, //로그인 시도중
     logInErrorReason: '', //로그인 실패 사유
-    signedUp : false, //회원가입 성공
+    isSignedUp : false, //회원가입 성공
     isSigningUp: false, //회원가입 시도중
     signUpErrorReason: '', //회원가입 실패 사유
     me : null, 
@@ -52,48 +53,29 @@ export const REMOVE_FOLLOWER_FAILURE = 'REMOVE_FOLLOWER_FAILURE';
 
 export const ADD_POST_TO_ME = 'ADD_POST_TOI_ME'; //리듀서의 단점때문에 어쩔수 없이 만듬
 
-export const signUpAction = (data) => {
-    return {
-        type: SIGN_UP_REQUEST,
-        data: data,
-    };
-};
-
-export const signUpSuccess = {
-    type : SIGN_UP_SUCCESS,
-};
-
-export const loginAction = { //액션
-    type: LOG_IN_REQUEST,
-    data: {
-        trynickname: 'wooseok trying',
-    },
-};
-
-export const logoutAction = {
-    type: LOG_OUT_REQUEST,
-};
 
 const reducer = (state = initialState, action) => { //스테이트와 액션을 받아 다음 스테이트 값을 만듬
     switch (action.type) {
         case LOG_IN_REQUEST: {
             return {
                 ...state,
-                isLoading: true,
+                isLoggingIn : true,
+                logInErrorReason : '',
             }
         }
         case LOG_IN_SUCCESS: {
             return{
                 ...state,
+                isLoggingIn: false,
                 isLoggedIn : true,
                 me: dummyUser,
-                isLoading: false,
             }
         }
         case LOG_IN_FAILURE: {
             return{
                 ...state,
-                isLoggedIn: false,
+                isLoggedIn : false,
+                logInErrorReason : action.error,
                 me: null,
             };
         }
@@ -107,7 +89,24 @@ const reducer = (state = initialState, action) => { //스테이트와 액션을 
         case SIGN_UP_REQUEST: {
             return {
                 ...state,
-                signUpData: action.data,
+                isSigningUp: true,
+                isSignedUp : false,
+                signUpErrorReason : '',
+            }
+        }
+        case SIGN_UP_SUCCESS: {
+            return {
+                ...state,
+                isSigningUp: false,
+                isSigninedUp : true,
+            }
+        }
+        case SIGN_UP_FAILURE: {
+            return {
+                ...state,
+                isSigningUp: false,
+                isSignedUp : false,
+                signUpErrorReason : action.error,
             }
         }
         default: {

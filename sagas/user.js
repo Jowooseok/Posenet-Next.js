@@ -7,7 +7,8 @@ function loginAPI() {
 }
 function* login() { //2. 함수 실행
     try {
-        yield call(loginAPI);
+        // yield call(loginAPI);
+        yield delay(1000);
         yield put({ //put은 dispatch 동일
             type: LOG_IN_SUCCESS,
         })
@@ -26,7 +27,9 @@ function signUpAPI() {
 }
 function* signUp() { 
     try {
-        yield call(signUpAPI);
+        // yield call(signUpAPI);
+        yield delay(2000);
+        throw new Error('에러발생이야 이놈아')
         yield put({ 
             type: SIGN_UP_SUCCESS,
         })
@@ -34,6 +37,7 @@ function* signUp() {
         console.error(e);
         yield put({
             type: SIGN_UP_FAILURE,
+            error : e,
         })
     }
 }

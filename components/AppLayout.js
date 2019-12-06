@@ -4,50 +4,32 @@ import { Menu, Input, Row, Col, Card, Avatar, Button, Form } from 'antd';
 import PropTypes from 'prop-types';
 import { useInput } from '../pages/signup';
 import { useDispatch, useSelector } from 'react-redux';
-import { LOG_IN_REQUEST, LOG_IN_SUCCESS } from '../reducers/user';
+import { LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_OUT_REQUEST } from '../reducers/user';
 
 
 
 const AppLayout = ({ children }) => {
 
-    //react
-    // const [isLoggedIn, setIsLoggedIn] = useState(false);
-    // const onChangeIsLoggedIn = () => {
-    //     setIsLoggedIn(false);
-    // }
+
     const [id, onChangeId] = useInput('');
     const [password, onChangePassword] = useInput('');
-    // const onSubmitForm = useCallback((e) =>{
-    //     e.preventDefault();
-    //     if(id === "wooseok" && password == "1234")
-    //         setIsLoggedIn(true);
-    // },[id, password] );
-
-    //redux
     const ReduxUser = useSelector(state=>state.user); //구조문법으로 const {useLoggedIn, user} = useSelector(state=>state.user); 사용 가능
     const {isLoggingIn, isLoggedIn,} = useSelector(state=>state.user);
     const dispatch = useDispatch();
     const onChangeIsLogout = () =>{
-        dispatch(logoutAction);
+        dispatch({
+            type: LOG_OUT_REQUEST,
+        });
     }
     const onSubmitForm = useCallback((e) =>{
         e.preventDefault();
         
-        // dispatch({
-        //     type: LOG_IN_REQUEST,
-        //     data: {
-        //         id, password,
-        //     },
-        // });
-
-        if(id === "wooseok" && password == "1234"){
-            dispatch({
-                type: 'LOG_IN',
-                data: {
-                    isLoggedIn : true,
-                }
-            })
-        }
+        dispatch({
+            type: LOG_IN_REQUEST,
+            data: {
+                id, password,
+            },
+        });
        
     },[id, password] );
     
